@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------------------------------//
-//  commit1 commit2                                                                                                         //
+//                                                                                                       //
 //  Master_ELEC1601_Student_2019_v3                                                                          //
 //  The Instructor version of this code is identical to this version EXCEPT it also sets PIN codes           //
 //  20191008 Peter Jones                                                                                     //
@@ -58,9 +58,13 @@ String retSymb = "+RTINQ=";   // Start symble when there's any return
 
 SoftwareSerial blueToothSerial(RxD,TxD);
 
+ int JoyStick_X = 2; //x
+ int JoyStick_Y = 3; //y
+ int JoyStick_Z = 9; //key
 
 void setup()
-{
+{    
+    pinMode(JoyStick_Z, INPUT);
     Serial.begin(9600);
     blueToothSerial.begin(38400);                    // Set Bluetooth module to default baud rate 38400
         
@@ -94,29 +98,73 @@ void setup()
 
 
 void loop()
-{
+{   
+
+    
+
     char recvChar;
 
     while(1)
-    {
+    {   
+    
+        int x,y,z;
+        x=analogRead(JoyStick_X);
+        y=analogRead(JoyStick_Y);
+        z=digitalRead(JoyStick_Z );
+        Serial.print(x ,DEC);
+        Serial.print(",");
+        Serial.print(y ,DEC);
+        Serial.print(",");
+        Serial.println(z ,DEC);
+        delay(300);
+
+     
         if(blueToothSerial.available())   // Check if there's any data sent from the remote Bluetooth shield
         {
             recvChar = blueToothSerial.read();
             Serial.print(recvChar);
+            
         }
 
         if(Serial.available())            // Check if there's any data sent from the local serial terminal. You can add the other applications here.
         {
-            recvChar  = Serial.read();
+            
+            recvChar = Serial.read();
             Serial.print(recvChar);
-            blueToothSerial.print(recvChar);
-        }
+            blueToothSerial.print(recvChar); //sends "recvChar" to the slave serial.
 
-        int buttonSignal = digitalRead(2);
-        if(buttonSignal == 0){
-            Serial.println('start');
-            blueToothSerial.println('start');
-            delay(2000);
+            //when up, y is 1023
+            //when down, y is 0
+            //when left, x is 1023
+            //when right, x is 0
+            //when middle button, z is 0
+            //when middle button, z is 1
+
+            if (x > 550 && x < 700) { //slow speed left
+              
+            }
+            if (x >= 700 && x < 900) { //medium speed left
+              
+            }
+            if (x >= 900 && x < 1024) { //high speed left
+              
+            }
+
+            
+              
+            //y axis control
+            
+            if (y > 550 && y < 700) { //slow speed forward 
+               
+            }
+            if (y >= 700 && y < 900) { //medium speed forward
+              
+            }
+            if (y >= 900 && y < 1024) { //high speed forward
+              
+            }
+            
+       
         }
     }
 }

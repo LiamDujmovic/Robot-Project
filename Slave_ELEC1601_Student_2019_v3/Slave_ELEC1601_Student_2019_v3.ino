@@ -100,29 +100,6 @@ void loop()
         if(blueToothSerial.available())   // Check if there's any data sent from the remote Bluetooth shield
         {
             recvChar = blueToothSerial.read();
-            if(recvChar == "start"){
-              int irLeft = irDetect(9, 10, 38000);       // Check for object on left
-              int irRight = irDetect(2, 3, 38000);       // Check for object on right
-            
-              if((irLeft == 0) && (irRight == 0))        // If both sides detect
-              {
-                servoLeft.writeMicroseconds(1800);                // Backward 20 milliseconds
-                servoRight.writeMicroseconds(1300);
-              }
-/*              else if(irLeft == 0)                       // If only left side detects
-              {
-                maneuver(200, -200, 20);                 // Right for 20 ms
-              }
-              else if(irRight == 0)                      // If only right side detects
-              {
-                maneuver(-200, 200, 20);                 // Left for 20 ms
-              }
-*/            else                                       // Otherwise, no IR detects
-              {
-                servoLeft.writeMicroseconds(1300);                  // Forward 20 ms
-                servoRight.writeMicroseconds(1800);
-              }              
-            }
             Serial.print(recvChar);
         }
 
@@ -131,6 +108,7 @@ void loop()
             recvChar  = Serial.read();
             Serial.print(recvChar);
             blueToothSerial.print(recvChar);
+            
         }
     }
 }
