@@ -92,7 +92,80 @@ void setup()
 
 
 void loop()
-{
+{   
+     
+          //default is 510, 510, 0
+          //when up, y is 1023
+          //when down, y is 0
+          //when left, x is 1023
+          //when right, x is 0
+          //when middle button not pressed, z is 0
+          //when middle button pressed, z is 1
+          //servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
+          //servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
+          //servoRight.writeMicroseconds(1300); // Right wheel clockwise
+             
+        void movement(int x, int y)
+        { 
+              
+          //STATIONARY
+          if (y < 530 && y > 500 && x < 530 && x > 500) {
+            servoLeft.writeMicroseconds(1500);  // Left wheel counterclockwise
+            servoRight.writeMicroseconds(1500); // Right wheel clockwise
+          }
+          //REVERSE
+          //STRAIGHT
+          if (y > 0 && y < 200 && x < 530 && x > 500) { //FASTER speed straight reverse
+            servoLeft.writeMicroseconds(1300); 
+            servoRight.writeMicroseconds(1700);
+          }
+          if (y >=200  && y < 490 && x < 530 && x > 500 ) { //SLOWER speed straight reverse
+            servoLeft.writeMicroseconds(1400); 
+            servoRight.writeMicroseconds(1600);
+          }
+          //LEFT MOVEMENT
+          if (y > 0 && y < 200 && y && x < 1024 && x > 800) { //faster speed left reverse
+            
+          }
+          if (y >=200  && y < 490 x < 1024 && x > 800) { //slower speed left reverse
+            
+          }
+          //RIGHT MOVEMENT
+          if (y > 0 && y < 200 && y  ) { //faster speed right reverse
+            
+          }
+          if (y >=300  && y < 450) { //slower speed right reverse
+            
+          }
+          
+          //FORWARD
+          //STRAIGHT
+          if (x > 550 && x < 700) { //SLOWER speed straight forward
+            servoLeft.writeMicroseconds(1600);  // Left wheel counterclockwise
+            servoRight.writeMicroseconds(1400); // Right wheel clockwise
+          }
+          if (y >= 900 && y < 1024 &&) { //FASTER speed straight forward
+            servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
+            servoRight.writeMicroseconds(1300); // Right wheel clockwise
+          }
+          //LEFT MOVEMENT
+          if (x > 550 && x < 700) { //SLOWER speed left forward
+            servoLeft.writeMicroseconds(1600);  // Left wheel counterclockwise
+            servoRight.writeMicroseconds(1400); // Right wheel clockwise
+          }
+          if (x >= 900 && x < 1024) { //FASTER speed left forward
+            servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
+            servoRight.writeMicroseconds(1300); // Right wheel clockwise
+          }
+          //RIGHT MOVEMENT
+          if (x > 550 && x < 700) { //slower speed right forward
+            
+          }
+          if (x >= 900 && x < 1024) { //faster speed right forward
+
+          }
+          
+          }
     char recvChar;
 
     while(1)
@@ -102,7 +175,7 @@ void loop()
             recvChar = blueToothSerial.read();
             Serial.print(recvChar);
         }
-
+        
         if(Serial.available())            // Check if there's any data sent from the local serial terminal. You can add the other applications here.
         {
             recvChar  = Serial.read();
