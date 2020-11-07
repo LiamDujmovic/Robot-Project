@@ -99,9 +99,6 @@ void setup()
 
 void loop()
 {   
-
-    
-
     char recvChar;
 
     while(1)
@@ -117,8 +114,13 @@ void loop()
         Serial.print(",");
         Serial.println(z ,DEC);
         delay(300);
+        
+          
 
-     
+
+
+ 
+
         if(blueToothSerial.available())   // Check if there's any data sent from the remote Bluetooth shield
         {
             recvChar = blueToothSerial.read();
@@ -128,43 +130,17 @@ void loop()
 
         if(Serial.available())            // Check if there's any data sent from the local serial terminal. You can add the other applications here.
         {
-            
+       
             recvChar = Serial.read();
             Serial.print(recvChar);
             blueToothSerial.print(recvChar); //sends "recvChar" to the slave serial.
-
-            //when up, y is 1023
-            //when down, y is 0
-            //when left, x is 1023
-            //when right, x is 0
-            //when middle button, z is 0
-            //when middle button, z is 1
-
-            if (x > 550 && x < 700) { //slow speed left
-              
-            }
-            if (x >= 700 && x < 900) { //medium speed left
-              
-            }
-            if (x >= 900 && x < 1024) { //high speed left
-              
-            }
-
+            blueToothSerial.print(x);
+            blueToothSerial.print(",");
+            blueToothSerial.print(y);
+            blueToothSerial.print(",");
+            blueToothSerial.print(z);
+          
             
-              
-            //y axis control
-            
-            if (y > 550 && y < 700) { //slow speed forward 
-               
-            }
-            if (y >= 700 && y < 900) { //medium speed forward
-              
-            }
-            if (y >= 900 && y < 1024) { //high speed forward
-              
-            }
-            
-       
         }
     }
 }
