@@ -93,44 +93,93 @@ void setup()
 
 void loop()
 {   
+    char recvChar;
+    
+
+ while(1) {
+        
+        if(blueToothSerial.available())   // Check if there's any data sent from the remote Bluetooth shield
+        {
+            recvChar = blueToothSerial.read();
+            Serial.print(recvChar);
+            movement(recvChar);
+    
+        }
+        
+        if(Serial.available())         // Check if there's any data sent from the local serial terminal. You can add the other applications here.
+        {
+            recvChar  = Serial.read();
+            Serial.print(recvChar);
+            blueToothSerial.print(recvChar);
+            
+        }
+        
+       
+}
+
+
+
+}
+
      
           //default is 510, 510, 0
           //when up, y is 1023
           //when down, y is 0
           //when left, x is 1023
           //when right, x is 0
-          //when middle button not pressed, z is 0
-          //when middle button pressed, z is 1
+          //when middle button not pressed, z is 1
+          //when middle button pressed, z is 0
           //servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
           //servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
           //servoRight.writeMicroseconds(1300); // Right wheel clockwise
              
-        void movement(int x, int y)
+
+int irDetect(int irLedPin, int irReceiverPin, long frequency)
+{
+  tone(irLedPin, frequency, 8);              // IRLED 38 kHz for at least 1 ms
+  delay(1);                                  // Wait 1 ms
+  int ir = digitalRead(irReceiverPin);       // IR receiver -> ir variable
+  delay(1);                                  // Down time before recheck
+  return ir;                                 // Return 1 no detect, 0 detect
+}  
+
+
+void movement(char x)
         { 
-              
+           
           //STATIONARY
-          if (y < 530 && y > 500 && x < 530 && x > 500) {
+          if (x == 'o') {
             servoLeft.writeMicroseconds(1500);  // Left wheel counterclockwise
             servoRight.writeMicroseconds(1500); // Right wheel clockwise
+         
+            
           }
           //REVERSE
           //STRAIGHT
-          if (y > 0 && y < 200 && x < 530 && x > 500) { //FASTER speed straight reverse
+          if (x == 'p') { //FASTER speed straight reverse
             servoLeft.writeMicroseconds(1300); 
             servoRight.writeMicroseconds(1700);
+       
           }
-          if (y >=200  && y < 490 && x < 530 && x > 500 ) { //SLOWER speed straight reverse
+          if (x == 'w') { //SLOWER speed straight forward
+            servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
+            servoRight.writeMicroseconds(1300); // Right wheel clockwise
+          }
+        }
+          /*
+          if (x == 'q') { //SLOWER speed straight reverse
             servoLeft.writeMicroseconds(1400); 
             servoRight.writeMicroseconds(1600);
           }
           //LEFT MOVEMENT
-          if (y > 0 && y < 200 && y && x < 1024 && x > 800) { //faster speed left reverse
+          if (x == 't') { //faster speed left reverse
             
           }
-          if (y >=200  && y < 490 x < 1024 && x > 800) { //slower speed left reverse
+          if ('k') { //slower speed left reverse
             
           }
-          //RIGHT MOVEMENT
+       
+        //RIGHT MOVEMENT
           if (y > 0 && y < 200 && y  ) { //faster speed right reverse
             
           }
@@ -144,7 +193,7 @@ void loop()
             servoLeft.writeMicroseconds(1600);  // Left wheel counterclockwise
             servoRight.writeMicroseconds(1400); // Right wheel clockwise
           }
-          if (y >= 900 && y < 1024 &&) { //FASTER speed straight forward
+          if (y >= 900 && y < 1024 ) { //FASTER speed straight forward
             servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
             servoRight.writeMicroseconds(1300); // Right wheel clockwise
           }
@@ -166,34 +215,7 @@ void loop()
           }
           
           }
-    char recvChar;
-
-    while(1)
-    {
-        if(blueToothSerial.available())   // Check if there's any data sent from the remote Bluetooth shield
-        {
-            recvChar = blueToothSerial.read();
-            Serial.print(recvChar);
-        }
-        
-        if(Serial.available())            // Check if there's any data sent from the local serial terminal. You can add the other applications here.
-        {
-            recvChar  = Serial.read();
-            Serial.print(recvChar);
-            blueToothSerial.print(recvChar);
-            
-        }
-    }
-}
-
-int irDetect(int irLedPin, int irReceiverPin, long frequency)
-{
-  tone(irLedPin, frequency, 8);              // IRLED 38 kHz for at least 1 ms
-  delay(1);                                  // Wait 1 ms
-  int ir = digitalRead(irReceiverPin);       // IR receiver -> ir variable
-  delay(1);                                  // Down time before recheck
-  return ir;                                 // Return 1 no detect, 0 detect
-}  
+         */
 
 
 void setupBlueToothConnection()
@@ -224,3 +246,60 @@ void setupBlueToothConnection()
     
     Serial.println("The slave bluetooth is inquirable!");
 }
+// two options depending on if we have the ir sensors detecting the white space around the line or the line itself
+
+void followTrackSpace()
+{  
+  // change to the decting ball function when ready
+  while (true) {
+    int irLeft = irDetect(9, 10, 38000);       // Check for object on left
+    int irRight = irDetect(2, 3, 38000);  
+    // the if both sensor detect is for side branch.
+    if ((irLeft == 0) && (irRight == 0)) {
+      servoLeft.writeMicroseconds(1550);                  // turn left 
+      servoRight.writeMicroseconds(1550);
+      delay(100);    //delay enough time to rotate more than the width of the track
+    }
+    else if (irLeft == 0) {
+      servoLeft.writeMicroseconds(1550);                  // turn left 
+      servoRight.writeMicroseconds(1550);
+    }
+    else if (irRight == 0) {
+      servoLeft.writeMicroseconds(1450);                  // turn right 
+      servoRight.writeMicroseconds(1450);
+    }
+    else {
+      servoLeft.writeMicroseconds(1400);                  // Forward 
+      servoRight.writeMicroseconds(1600);
+    }
+    
+  }
+}
+
+void followTrackLine()
+{ 
+  while (true) {
+    int irLeft = irDetect(9, 10, 38000);       // Check for object on left
+    int irRight = irDetect(2, 3, 38000);  
+    if ((irLeft == 1) && (irRight == 1)) {
+      servoLeft.writeMicroseconds(1550);                  // turn left 
+      servoRight.writeMicroseconds(1550);
+      delay(100);    //delay enough time to rotate more than the width of the track
+    }
+    else if (irLeft == 1) {
+      servoLeft.writeMicroseconds(1450);                // turn right
+      servoRight.writeMicroseconds(1500);
+    }
+    else if (irRight == 1) {
+      servoLeft.writeMicroseconds(1500);                  // turn left
+      servoRight.writeMicroseconds(1550);
+    }
+    else {
+      servoLeft.writeMicroseconds(1400);                  // Forward 
+      servoRight.writeMicroseconds(1600);
+    }
+    
+  }
+  
+}
+

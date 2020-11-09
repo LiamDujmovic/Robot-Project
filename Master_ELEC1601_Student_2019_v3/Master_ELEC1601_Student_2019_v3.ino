@@ -100,50 +100,110 @@ void setup()
 void loop()
 {   
     char recvChar;
+    String coordinates;
+    int x,y,z;
+        
 
     while(1)
     {   
     
-        int x,y,z;
         x=analogRead(JoyStick_X);
         y=analogRead(JoyStick_Y);
         z=digitalRead(JoyStick_Z );
-        Serial.print(x ,DEC);
+        /*Serial.print(x);
         Serial.print(",");
-        Serial.print(y ,DEC);
+        Serial.print(y);
         Serial.print(",");
-        Serial.println(z ,DEC);
+        Serial.println(z);
         delay(300);
+        */
+
         
-          
-
-
-
- 
-
+        blueToothSerial.println(movement(x,y));
+        delay(300);
+  
+        
         if(blueToothSerial.available())   // Check if there's any data sent from the remote Bluetooth shield
         {
-            recvChar = blueToothSerial.read();
-            Serial.print(recvChar);
+            coordinates = blueToothSerial.readString();
+            Serial.print(coordinates);
             
         }
 
         if(Serial.available())            // Check if there's any data sent from the local serial terminal. You can add the other applications here.
         {
        
-            recvChar = Serial.read();
-            Serial.print(recvChar);
-            blueToothSerial.print(recvChar); //sends "recvChar" to the slave serial.
-            blueToothSerial.print(x);
-            blueToothSerial.print(",");
-            blueToothSerial.print(y);
-            blueToothSerial.print(",");
-            blueToothSerial.print(z);
-          
+            Serial.print(coordinates);
+            blueToothSerial.print(coordinates); //sends "recvChar" to the slave serial.
+            
             
         }
+        
+ 
+        
     }
 }
+
+char movement(int x, int y)
+        { 
+           
+          //STATIONARY
+          if (y < 530 && y > 490 && x < 530 && x > 490) {
+            return 'o';
+          }
+          //REVERSE
+          //STRAIGHT
+          if (y > 0 && y < 200 && x < 535 && x > 490) { //FASTER speed straight reverse
+            return 'p';
+          }
+          //FORWARD
+          if (y > 600 && y < 1024 && x < 530 && x > 490 ) { //SLOWER speed straight forward
+            return 'w';
+          }
+          /*
+       
+          if (y >=200  && y < 490 && x < 530 && x > 500 ) { //SLOWER speed straight reverse
+            return 'q';
+          }
+          //LEFT MOVEMENT
+          if (y > 0 && y < 200 && y && x < 1024 && x > 800) { //faster speed left reverse
+            return 't';
+          }
+          if (y >=200  && y < 490 && x < 1024 && x > 800) { //slower speed left reverse
+            return 'k';
+          }
+          //RIGHT MOVEMENT
+          if (y > 0 && y < 200 && y  ) { //faster speed right reverse
+            return 'g';
+          }
+          if (y >=300  && y < 450) { //slower speed right reverse
+            return 'f';
+          }
+          
+          //FORWARD
+          //STRAIGHT
+          if (x > 550 && x < 700) { //SLOWER speed straight forward
+            return 'w';
+          }
+          if (y >= 900 && y < 1024 ) { //FASTER speed straight forward
+            return 'a';
+          }
+          //LEFT MOVEMENT
+          if (x > 550 && x < 700) { //SLOWER speed left forward
+            return 'z';
+          }
+          if (x >= 900 && x < 1024) { //FASTER speed left forward
+            return 'u';
+          }
+          //RIGHT MOVEMENT
+          if (x > 550 && x < 700) { //slower speed right forward
+            return 'x';
+          }
+          if (x >= 900 && x < 1024) { //faster speed right forward
+            return 'j';
+          }
+          */
+        }
 
 
 void setupBlueToothConnection()
