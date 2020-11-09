@@ -110,17 +110,10 @@ void loop()
         x=analogRead(JoyStick_X);
         y=analogRead(JoyStick_Y);
         z=digitalRead(JoyStick_Z );
-        /*Serial.print(x);
-        Serial.print(",");
-        Serial.print(y);
-        Serial.print(",");
-        Serial.println(z);
-        delay(300);
-        */
 
         
         blueToothSerial.println(movement(x,y));
-        delay(300);
+        delay(200);
   
         
         if(blueToothSerial.available())   // Check if there's any data sent from the remote Bluetooth shield
@@ -148,61 +141,37 @@ char movement(int x, int y)
         { 
            
           //STATIONARY
-          if (y < 530 && y > 490 && x < 530 && x > 490) {
+          if (y < 540 && y > 480 && x < 540 && x > 480) {
             return 'o';
           }
           //REVERSE
           //STRAIGHT
-          if (y > 0 && y < 200 && x < 535 && x > 490) { //FASTER speed straight reverse
+          if (y > 0 && y < 400 && x < 540 && x > 480) { //Straight reverse
             return 'p';
           }
-          //FORWARD
-          if (y > 600 && y < 1024 && x < 530 && x > 490 ) { //SLOWER speed straight forward
-            return 'w';
+          //LEFT
+          if (y > 0 && y < 400 && x > 540 && x < 800) { //Left reverse
+            return 'x';
           }
-          /*
-       
-          if (y >=200  && y < 490 && x < 530 && x > 500 ) { //SLOWER speed straight reverse
+          //RIGHT
+          if (y > 0 && y < 400 && x > 0 && x < 400) { //Right reverse
             return 'q';
-          }
-          //LEFT MOVEMENT
-          if (y > 0 && y < 200 && y && x < 1024 && x > 800) { //faster speed left reverse
-            return 't';
-          }
-          if (y >=200  && y < 490 && x < 1024 && x > 800) { //slower speed left reverse
-            return 'k';
-          }
-          //RIGHT MOVEMENT
-          if (y > 0 && y < 200 && y  ) { //faster speed right reverse
-            return 'g';
-          }
-          if (y >=300  && y < 450) { //slower speed right reverse
-            return 'f';
           }
           
           //FORWARD
           //STRAIGHT
-          if (x > 550 && x < 700) { //SLOWER speed straight forward
+          if (y > 600 && y < 1024 && x < 540 && x > 480 ) { //Straight forward
             return 'w';
           }
-          if (y >= 900 && y < 1024 ) { //FASTER speed straight forward
-            return 'a';
+          //LEFT
+          if (y > 600 && y < 1024 && x > 540 && x < 800) { //Left reverse
+            return 'g';
           }
-          //LEFT MOVEMENT
-          if (x > 550 && x < 700) { //SLOWER speed left forward
-            return 'z';
+          //RIGHT
+          if (y > 600 && y < 1024 && x > 0 && x < 400) {//Right reverse
+            return 'h';
           }
-          if (x >= 900 && x < 1024) { //FASTER speed left forward
-            return 'u';
-          }
-          //RIGHT MOVEMENT
-          if (x > 550 && x < 700) { //slower speed right forward
-            return 'x';
-          }
-          if (x >= 900 && x < 1024) { //faster speed right forward
-            return 'j';
-          }
-          */
+          
         }
 
 
