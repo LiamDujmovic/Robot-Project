@@ -156,67 +156,37 @@ void movement(char x)
           }
           //REVERSE
           //STRAIGHT
-          if (x == 'p') { //FASTER speed straight reverse
+          if (x == 'p') { //Straight reverse
             servoLeft.writeMicroseconds(1300); 
             servoRight.writeMicroseconds(1700);
        
           }
-          if (x == 'w') { //SLOWER speed straight forward
+          //LEFT
+          if (x == 'w') { //Straight forward
             servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
             servoRight.writeMicroseconds(1300); // Right wheel clockwise
           }
-        }
-          /*
-          if (x == 'q') { //SLOWER speed straight reverse
-            servoLeft.writeMicroseconds(1400); 
-            servoRight.writeMicroseconds(1600);
-          }
-          //LEFT MOVEMENT
-          if (x == 't') { //faster speed left reverse
-            
-          }
-          if ('k') { //slower speed left reverse
-            
-          }
+          //RIGHT
+          if (x == 'p') { //Straight reverse
+            servoLeft.writeMicroseconds(1300); 
+            servoRight.writeMicroseconds(1700);
        
-        //RIGHT MOVEMENT
-          if (y > 0 && y < 200 && y  ) { //faster speed right reverse
-            
           }
-          if (y >=300  && y < 450) { //slower speed right reverse
-            
-          }
-          
           //FORWARD
           //STRAIGHT
-          if (x > 550 && x < 700) { //SLOWER speed straight forward
-            servoLeft.writeMicroseconds(1600);  // Left wheel counterclockwise
-            servoRight.writeMicroseconds(1400); // Right wheel clockwise
+          if (x == 'p') { //Straight reverse
+            servoLeft.writeMicroseconds(1300); 
+            servoRight.writeMicroseconds(1700);
+       
           }
-          if (y >= 900 && y < 1024 ) { //FASTER speed straight forward
-            servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
-            servoRight.writeMicroseconds(1300); // Right wheel clockwise
-          }
-          //LEFT MOVEMENT
-          if (x > 550 && x < 700) { //SLOWER speed left forward
-            servoLeft.writeMicroseconds(1600);  // Left wheel counterclockwise
-            servoRight.writeMicroseconds(1400); // Right wheel clockwise
-          }
-          if (x >= 900 && x < 1024) { //FASTER speed left forward
-            servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
-            servoRight.writeMicroseconds(1300); // Right wheel clockwise
-          }
-          //RIGHT MOVEMENT
-          if (x > 550 && x < 700) { //slower speed right forward
-            
-          }
-          if (x >= 900 && x < 1024) { //faster speed right forward
-
+          if (x == 'p') { //Straight reverse
+            servoLeft.writeMicroseconds(1300); 
+            servoRight.writeMicroseconds(1700);
+       
           }
           
-          }
-         */
-
+        }
+         
 
 void setupBlueToothConnection()
 {
