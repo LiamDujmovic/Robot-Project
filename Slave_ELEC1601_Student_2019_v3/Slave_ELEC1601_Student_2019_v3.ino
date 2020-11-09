@@ -103,7 +103,7 @@ void loop()
             recvChar = blueToothSerial.read();
             Serial.print(recvChar);
             movement(recvChar);
-    
+    		
         }
         
         if(Serial.available())         // Check if there's any data sent from the local serial terminal. You can add the other applications here.
@@ -144,48 +144,49 @@ int irDetect(int irLedPin, int irReceiverPin, long frequency)
 }  
 
 
-void movement(char x)
-        { 
-           
-          //STATIONARY
-          if (x == 'o') {
-            servoLeft.writeMicroseconds(1500);  // Left wheel counterclockwise
-            servoRight.writeMicroseconds(1500); // Right wheel clockwise
-         
-            
-          }
-          //REVERSE
-          //STRAIGHT
-          if (x == 'p') { //Straight reverse
-            servoLeft.writeMicroseconds(1300); 
-            servoRight.writeMicroseconds(1700);
-       
-          }
-          //LEFT
-          if (x == 'w') { //Straight forward
-            servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
-            servoRight.writeMicroseconds(1300); // Right wheel clockwise
-          }
-          //RIGHT
-          if (x == 'p') { //Straight reverse
-            servoLeft.writeMicroseconds(1300); 
-            servoRight.writeMicroseconds(1700);
-       
-          }
-          //FORWARD
-          //STRAIGHT
-          if (x == 'p') { //Straight reverse
-            servoLeft.writeMicroseconds(1300); 
-            servoRight.writeMicroseconds(1700);
-       
-          }
-          if (x == 'p') { //Straight reverse
-            servoLeft.writeMicroseconds(1300); 
-            servoRight.writeMicroseconds(1700);
-       
-          }
-          
-        }
+void movement(char x) {
+
+			//STATIONARY
+			if (x == 'o') {
+				servoLeft.writeMicroseconds(1500);  // Left wheel counterclockwise
+				servoRight.writeMicroseconds(1500); // Right wheel clockwise
+			}
+			//REVERSE
+			//STRAIGHT
+			if (x == 'p') { //Straight reverse
+				servoLeft.writeMicroseconds(1300); //clockwise
+				servoRight.writeMicroseconds(1700); //counter clockwise
+
+			}
+			//LEFT
+			if (x == 'x') { //Left Reverse
+				servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
+				servoRight.writeMicroseconds(1300); // Right wheel clockwise
+			}
+			//RIGHT
+			if (x == 'q') { //Right reverse
+				servoLeft.writeMicroseconds(1300); 
+				servoRight.writeMicroseconds(1550);
+			}
+			//FORWARD
+			//STRAIGHT
+			if (x == 'w') { //Straight forward
+				servoLeft.writeMicroseconds(1700); //counter clockwise
+				servoRight.writeMicroseconds(1300); //clockwise
+			}
+			//LEFT
+			if (x == 'g') { //forward left
+				servoLeft.writeMicroseconds(1550); 
+				servoRight.writeMicroseconds(1300);
+
+			}
+			//RIGHT
+			if (x == 'h') { //forward right
+				servoLeft.writeMicroseconds(1700); 
+				servoRight.writeMicroseconds(1450);
+			}
+}
+
          
 
 void setupBlueToothConnection()
