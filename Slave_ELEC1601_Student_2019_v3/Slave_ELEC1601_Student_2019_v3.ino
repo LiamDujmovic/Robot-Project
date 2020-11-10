@@ -232,13 +232,14 @@ void setupBlueToothConnection()
 }
 // two options depending on if we have the ir sensors detecting the white space around the line or the line itself
 
-void followTrackSpace()
+boolean followTrackSpace()
 {  
-  // change to the decting ball function when ready
-  while (true) {
     int irLeft = irDetect(9, 10, 38000);       // Check for object on left
     int irRight = irDetect(2, 3, 38000);  
     // the if both sensor detect is for side branch.
+    if (detection()) {
+    	return false;
+    }
     if ((irLeft == 0) && (irRight == 0)) {
       servoLeft.writeMicroseconds(1550);                  // turn left 
       servoRight.writeMicroseconds(1550);
@@ -252,38 +253,11 @@ void followTrackSpace()
       servoLeft.writeMicroseconds(1450);                  // turn right 
       servoRight.writeMicroseconds(1450);
     }
+	
     else {
       servoLeft.writeMicroseconds(1400);                  // Forward 
       servoRight.writeMicroseconds(1600);
     }
-    
-  }
-}
-
-void followTrackLine()
-{ 
-  while (true) {
-    int irLeft = irDetect(9, 10, 38000);       // Check for object on left
-    int irRight = irDetect(2, 3, 38000);  
-    if ((irLeft == 1) && (irRight == 1)) {
-      servoLeft.writeMicroseconds(1550);                  // turn left 
-      servoRight.writeMicroseconds(1550);
-      delay(100);    //delay enough time to rotate more than the width of the track
-    }
-    else if (irLeft == 1) {
-      servoLeft.writeMicroseconds(1450);                // turn right
-      servoRight.writeMicroseconds(1500);
-    }
-    else if (irRight == 1) {
-      servoLeft.writeMicroseconds(1500);                  // turn left
-      servoRight.writeMicroseconds(1550);
-    }
-    else {
-      servoLeft.writeMicroseconds(1400);                  // Forward 
-      servoRight.writeMicroseconds(1600);
-    }
-    
-  }
-  
+    return true;
 }
 
