@@ -96,7 +96,8 @@ void setup()
     }
 }
 
-
+int checker = 0;
+boolean condition = true;
 void loop()
 {   
     char recvChar;
@@ -110,24 +111,31 @@ void loop()
         x=analogRead(JoyStick_X);
         y=analogRead(JoyStick_Y);
         z=digitalRead(JoyStick_Z );
-
-        
-        blueToothSerial.println(movement(x,y));
-        delay(200);
+       
+        while (condition) {
+          blueToothSerial.println(movement(x,y));
+          delay(200);
+          if (z == 0) {
+            checker = 1;
+            condition = false;
+            break;
+        }
+        if (z == 0) {
+    
   
         
         if(blueToothSerial.available())   // Check if there's any data sent from the remote Bluetooth shield
         {
-            coordinates = blueToothSerial.readString();
-            Serial.print(coordinates);
+            recvChar = blueToothSerial.read();
+            Serial.print(recvChar);
             
         }
 
         if(Serial.available())            // Check if there's any data sent from the local serial terminal. You can add the other applications here.
         {
        
-            Serial.print(coordinates);
-            blueToothSerial.print(coordinates); //sends "recvChar" to the slave serial.
+            Serial.print(recvChar);
+            blueToothSerial.print(recvChar); //sends "recvChar" to the slave serial.
             
             
         }
