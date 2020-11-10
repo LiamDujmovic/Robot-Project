@@ -144,6 +144,16 @@ int irDetect(int irLedPin, int irReceiverPin, long frequency)
 }  
 
 
+boolean detection(){
+//Colour Detection (MUST BE TUNED TO EXACT BALL COLOUR)
+
+  if(irDetect(9, 10, BallFrequency) == 0 || irDetect(2, 3, BallFrequency) == 0){
+     blueToothSerial.print("Object Found");
+     captureBall();
+     returnToStart(movementArray);            
+  }
+}
+
 void movement(char x) {
 
 			//STATIONARY
