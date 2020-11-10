@@ -150,8 +150,11 @@ boolean detection(){
   if(irDetect(9, 10, BallFrequency) == 0 || irDetect(2, 3, BallFrequency) == 0){
      blueToothSerial.print("Object Found");
      captureBall();
-     returnToStart(movementArray);            
+     returnToStart(movementArray);
+     return true;
   }
+	
+  return false;
 }
 
 void movement(char x) {
