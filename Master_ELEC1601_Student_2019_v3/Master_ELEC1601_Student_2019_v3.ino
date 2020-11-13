@@ -179,6 +179,11 @@ char movement(int x, int y)
           if (y > 600 && y < 1024 && x > 0 && x < 400) {//Right reverse
             return 'h';
           }
+  
+          //PRESS MIDDLE
+          if(z == 0){
+            return 'z';
+          }
           
         }
 
