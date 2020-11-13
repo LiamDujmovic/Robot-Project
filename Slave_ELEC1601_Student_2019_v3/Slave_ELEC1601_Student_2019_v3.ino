@@ -68,6 +68,8 @@ void setup()
 
     servoLeft.attach(13);                      // Attach left signal to pin 13
     servoRight.attach(12);                     // Attach right signal to pin 12
+	
+    String[] movementArray = new String[200];
 
     //  Check whether Master and Slave are already connected by polling the ConnStatus pin (A1 on SeeedStudio v1 shield)
     //  This prevents running the full connection setup routine if not necessary.
@@ -102,7 +104,10 @@ void loop()
         {
             recvChar = blueToothSerial.read();
             Serial.print(recvChar);
-            movement(recvChar);
+            boolean enableAuto = movement(recvChar);
+	    if(enableAuto) {
+		followTrackLine();
+	    }
     		
         }
         
@@ -145,11 +150,9 @@ int irDetect(int irLedPin, int irReceiverPin, long frequency)
 
 
 boolean detection(){
-//Colour Detection (MUST BE TUNED TO EXACT BALL COLOUR)
 
-  if(irDetect(9, 10, BallFrequency) == 0 || irDetect(2, 3, BallFrequency) == 0){
+  if(irDetect(9, 10, 3800) == 0 && irDetect(2, 3, 3800) == 0){
      blueToothSerial.print("Object Found");
-     captureBall();
      returnToStart(movementArray);
      return true;
   }
@@ -157,7 +160,7 @@ boolean detection(){
   return false;
 }
 
-void movement(char x) {
+boolean movement(char x) {
 
 			//STATIONARY
 			if (x == 'o') {
@@ -198,6 +201,13 @@ void movement(char x) {
 				servoLeft.writeMicroseconds(1700); 
 				servoRight.writeMicroseconds(1450);
 			}
+	
+			//ACTIVATE AUTO
+			if (x == 'z') { //middle button pressed
+				return true;
+			
+			}
+			return false;
 }
 
          
@@ -231,7 +241,7 @@ void setupBlueToothConnection()
     Serial.println("The slave bluetooth is inquirable!");
 }
 // two options depending on if we have the ir sensors detecting the white space around the line or the line itself
-
+/*
 boolean followTrackSpace()
 {  
     int irLeft = irDetect(9, 10, 38000);       // Check for object on left
@@ -259,5 +269,33 @@ boolean followTrackSpace()
       servoRight.writeMicroseconds(1600);
     }
     return true;
+}
+*/
+	
+void followTrackLine()
+{	
+  while (!detected()) {
+    int irLeft = irDetect(9, 10, 38000);       // Check for object on left
+  	int irRight = irDetect(2, 3, 38000);  
+    if ((irLeft == 1) && (irRight == 1)) {
+      servoLeft.writeMicroseconds(1550);                  // turn left 
+      servoRight.writeMicroseconds(1550);
+      delay(100)    //delay enough time to rotate more than the width of the track
+    }
+    else if (irLeft == 1) {
+      servoLeft.writeMicroseconds(1450);                // turn right
+      servoRight.writeMicroseconds(1500);
+    }
+    else if (irRight == 1) {
+      servoLeft.writeMicroseconds(1500);                  // turn left
+      servoRight.writeMicroseconds(1550);
+    }
+    else {
+      servoLeft.writeMicroseconds(1400);                  // Forward 
+      servoRight.writeMicroseconds(1600);
+    }
+    
+  }
+  
 }
 
