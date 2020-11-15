@@ -289,16 +289,16 @@ void followTrackLine()
       delay(100)    //delay enough time to rotate more than the width of the track
     }
     else if (irLeft == 1) {
-      servoLeft.writeMicroseconds(1450);                // turn right
-      servoRight.writeMicroseconds(1500);
+      servoLeft.writeMicroseconds(1500);                // turn right
+      servoRight.writeMicroseconds(1400);
     }
     else if (irRight == 1) {
-      servoLeft.writeMicroseconds(1500);                  // turn left
-      servoRight.writeMicroseconds(1550);
+      servoLeft.writeMicroseconds(1400);                  // turn left
+      servoRight.writeMicroseconds(1500);
     }
     else {
-      servoLeft.writeMicroseconds(1400);                  // Forward 
-      servoRight.writeMicroseconds(1600);
+      servoLeft.writeMicroseconds(1700);                  // Forward 
+      servoRight.writeMicroseconds(1300);
     }
     
   }
