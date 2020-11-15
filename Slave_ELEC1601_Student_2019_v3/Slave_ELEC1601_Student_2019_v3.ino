@@ -274,9 +274,10 @@ boolean followTrackSpace()
 	
 void followTrackLine()
 {	
-  while (!detected()) {
+  while (!detection()) {
     int irLeft = irDetect(9, 10, 38000);       // Check for object on left
   	int irRight = irDetect(2, 3, 38000);  
+    // can change the below if statement to break the loop if there are no crossroads.
     if ((irLeft == 1) && (irRight == 1)) {
       servoLeft.writeMicroseconds(1550);                  // turn left 
       servoRight.writeMicroseconds(1550);
