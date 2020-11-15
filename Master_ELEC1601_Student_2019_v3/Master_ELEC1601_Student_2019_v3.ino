@@ -96,8 +96,6 @@ void setup()
     }
 }
 
-int checker = 0;
-boolean condition = true;
 void loop()
 {   
     char recvChar;
@@ -111,33 +109,33 @@ void loop()
         x=analogRead(JoyStick_X);
         y=analogRead(JoyStick_Y);
         z=digitalRead(JoyStick_Z );
-       
-        while (condition) {
-          blueToothSerial.println(movement(x,y));
-          delay(200);
-          if (z == 0) {
-            checker = 1;
-            condition = false;
-            break;
-        }
-        if (z == 0) {
+        Serial.print(x);
+        Serial.print(",");
+        Serial.print(y);
+        Serial.print(",");
+        Serial.println(z);
+    
+         blueToothSerial.println(movement(x,y));
+         delay(50);
+        
+
     
   
         
         if(blueToothSerial.available())   // Check if there's any data sent from the remote Bluetooth shield
         {
-            recvChar = blueToothSerial.read();
-            Serial.print(recvChar);
-            
+            coordinates = blueToothSerial.readString();
+            Serial.print(coordinates);
+
         }
 
         if(Serial.available())            // Check if there's any data sent from the local serial terminal. You can add the other applications here.
         {
-       
-            Serial.print(recvChar);
-            blueToothSerial.print(recvChar); //sends "recvChar" to the slave serial.
-            
-            
+
+            Serial.print(coordinates);
+            blueToothSerial.print(coordinates); //sends "recvChar" to the slave serial.
+
+
         }
         
  
@@ -149,41 +147,41 @@ char movement(int x, int y)
         { 
            
           //STATIONARY
-          if (y < 540 && y > 480 && x < 540 && x > 480) {
+          if (y <= 540 && y >= 480 && x <= 540 && x >= 480) {
             return 'o';
           }
           //REVERSE MOVEMENTS
           //STRAIGHT
-          if (y > 0 && y < 400 && x < 540 && x > 480) { //Straight reverse
+          if (y >= 0 && y <= 400 && x <= 540 && x >= 480) { //Straight reverse
             return 'p';
           }
           //LEFT
-          if (y > 0 && y < 400 && x > 540 && x < 800) { //Left reverse
+          if (y >= 0 && y <= 400 && x >= 0 && x <= 400) { //Left reverse
             return 'x';
           }
           //RIGHT
-          if (y > 0 && y < 400 && x > 0 && x < 400) { //Right reverse
+          if (y >= 0 && y <= 400 && x > 540 && x <= 1024) { //Right reverse
             return 'q';
           }
           
           //FORWARD MOVEMENTS 
           //STRAIGHT
-          if (y > 600 && y < 1024 && x < 540 && x > 480 ) { //Straight forward
+          if (y >= 600 && y <= 1024 && x <= 540 && x >= 480 ) { //Straight forward
             return 'w';
           }
           //LEFT
-          if (y > 600 && y < 1024 && x > 540 && x < 800) { //Left forward
+          if (y >= 600 && y <= 1024 && x >= 0 && x <= 400) { //Left forward
             return 'g';
           }
           //RIGHT
-          if (y > 600 && y < 1024 && x > 0 && x < 400) {//Right forward
+          if (y >= 600 && y <= 1024 && x >= 530 && x <= 1024) {//Right forward
             return 'h';
           }
   
           //PRESS MIDDLE
-          if(z == 0){
-            return 'z';
-          }
+          //if(z == 0){
+           // return 'z';
+          //}
           
         }
 

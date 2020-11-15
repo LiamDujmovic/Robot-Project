@@ -69,7 +69,7 @@ void setup()
     servoLeft.attach(13);                      // Attach left signal to pin 13
     servoRight.attach(12);                     // Attach right signal to pin 12
 	
-    String[] movementArray = new String[200];
+    //String[] movementArray = new String[200];
 
     //  Check whether Master and Slave are already connected by polling the ConnStatus pin (A1 on SeeedStudio v1 shield)
     //  This prevents running the full connection setup routine if not necessary.
@@ -104,12 +104,13 @@ void loop()
         {
             recvChar = blueToothSerial.read();
             Serial.print(recvChar);
-            boolean enableAuto = movement(recvChar);
-	    if(enableAuto) {
-		followTrackLine();
+            movement(recvChar);
+            /*boolean enableAuto = movement(recvChar);
+	          if(enableAuto) {
+		            followTrackLine();
                 turn();
                 followTrackLine();
-	    }
+	          } */
     		
         }
         
@@ -158,7 +159,7 @@ boolean detection(){
 
   if(irDetect(9, 10, 3800) == 0 && irDetect(2, 3, 3800) == 0){
      blueToothSerial.print("Object Found");
-     returnToStart(movementArray);
+     //returnToStart(movementArray);
      return true;
   }
 	
@@ -181,8 +182,8 @@ boolean movement(char x) {
 	}
 	//LEFT
 	if (x == 'x') { //Left Reverse
-		servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
-		servoRight.writeMicroseconds(1300); // Right wheel clockwise
+		servoLeft.writeMicroseconds(1500);  // Left wheel counterclockwise
+		servoRight.writeMicroseconds(1700); // Right wheel clockwise
 	}
 	//RIGHT
 	if (x == 'q') { //Right reverse
@@ -197,14 +198,14 @@ boolean movement(char x) {
 	}
 	//LEFT
 	if (x == 'g') { //forward left
-		servoLeft.writeMicroseconds(1550); 
+		servoLeft.writeMicroseconds(1500); 
 		servoRight.writeMicroseconds(1300);
 
 	}
 	//RIGHT
 	if (x == 'h') { //forward right
 		servoLeft.writeMicroseconds(1700); 
-		servoRight.writeMicroseconds(1450);
+		servoRight.writeMicroseconds(1500);
 	}
 
 	//ACTIVATE AUTO
@@ -286,19 +287,19 @@ void followTrackLine()
     if ((irLeft == 1) && (irRight == 1)) {
       servoLeft.writeMicroseconds(1550);                  // turn left 
       servoRight.writeMicroseconds(1550);
-      delay(100)    //delay enough time to rotate more than the width of the track
+      delay(100);    //delay enough time to rotate more than the width of the track
     }
     else if (irLeft == 1) {
-      servoLeft.writeMicroseconds(1500);                // turn right
-      servoRight.writeMicroseconds(1400);
-    }
-    else if (irRight == 1) {
-      servoLeft.writeMicroseconds(1400);                  // turn left
+      servoLeft.writeMicroseconds(1450);                // turn right
       servoRight.writeMicroseconds(1500);
     }
+    else if (irRight == 1) {
+      servoLeft.writeMicroseconds(1500);                  // turn left
+      servoRight.writeMicroseconds(1550);
+    }
     else {
-      servoLeft.writeMicroseconds(1700);                  // Forward 
-      servoRight.writeMicroseconds(1300);
+      servoLeft.writeMicroseconds(1400);                  // Forward 
+      servoRight.writeMicroseconds(1600);
     }
     
   }
