@@ -152,7 +152,7 @@ char movement(int x, int y)
           if (y < 540 && y > 480 && x < 540 && x > 480) {
             return 'o';
           }
-          //REVERSE
+          //REVERSE MOVEMENTS
           //STRAIGHT
           if (y > 0 && y < 400 && x < 540 && x > 480) { //Straight reverse
             return 'p';
@@ -166,17 +166,17 @@ char movement(int x, int y)
             return 'q';
           }
           
-          //FORWARD
+          //FORWARD MOVEMENTS 
           //STRAIGHT
           if (y > 600 && y < 1024 && x < 540 && x > 480 ) { //Straight forward
             return 'w';
           }
           //LEFT
-          if (y > 600 && y < 1024 && x > 540 && x < 800) { //Left reverse
+          if (y > 600 && y < 1024 && x > 540 && x < 800) { //Left forward
             return 'g';
           }
           //RIGHT
-          if (y > 600 && y < 1024 && x > 0 && x < 400) {//Right reverse
+          if (y > 600 && y < 1024 && x > 0 && x < 400) {//Right forward
             return 'h';
           }
   
