@@ -107,6 +107,8 @@ void loop()
             boolean enableAuto = movement(recvChar);
 	    if(enableAuto) {
 		followTrackLine();
+                turn();
+                followTrackLine();
 	    }
     		
         }
@@ -148,7 +150,11 @@ int irDetect(int irLedPin, int irReceiverPin, long frequency)
   return ir;                                 // Return 1 no detect, 0 detect
 }  
 
-
+void turn() {
+  servoLeft.writeMicroseconds(1550);                  // turn left 
+  servoRight.writeMicroseconds(1550);
+  delay(100);  // delay enough time to turn 180
+}
 boolean detection(){
 
   if(irDetect(9, 10, 3800) == 0 && irDetect(2, 3, 3800) == 0){
