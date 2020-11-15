@@ -137,7 +137,6 @@ void loop()
           //when middle button not pressed, z is 1
           //when middle button pressed, z is 0
           //servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
-          //servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
           //servoRight.writeMicroseconds(1300); // Right wheel clockwise
              
 
@@ -168,52 +167,52 @@ boolean detection(){
 
 boolean movement(char x) {
 
-			//STATIONARY
-			if (x == 'o') {
-				servoLeft.writeMicroseconds(1500);  // Left wheel counterclockwise
-				servoRight.writeMicroseconds(1500); // Right wheel clockwise
-			}
-			//REVERSE
-			//STRAIGHT
-			if (x == 'p') { //Straight reverse
-				servoLeft.writeMicroseconds(1300); //clockwise
-				servoRight.writeMicroseconds(1700); //counter clockwise
+	//STATIONARY
+	if (x == 'o') {
+		servoLeft.writeMicroseconds(1500);  // Left wheel counterclockwise
+		servoRight.writeMicroseconds(1500); // Right wheel clockwise
+	}
+	//REVERSE
+	//STRAIGHT
+	if (x == 'p') { //Straight reverse
+		servoLeft.writeMicroseconds(1300); //clockwise
+		servoRight.writeMicroseconds(1700); //counter clockwise
 
-			}
-			//LEFT
-			if (x == 'x') { //Left Reverse
-				servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
-				servoRight.writeMicroseconds(1300); // Right wheel clockwise
-			}
-			//RIGHT
-			if (x == 'q') { //Right reverse
-				servoLeft.writeMicroseconds(1300); 
-				servoRight.writeMicroseconds(1550);
-			}
-			//FORWARD
-			//STRAIGHT
-			if (x == 'w') { //Straight forward
-				servoLeft.writeMicroseconds(1700); //counter clockwise
-				servoRight.writeMicroseconds(1300); //clockwise
-			}
-			//LEFT
-			if (x == 'g') { //forward left
-				servoLeft.writeMicroseconds(1550); 
-				servoRight.writeMicroseconds(1300);
+	}
+	//LEFT
+	if (x == 'x') { //Left Reverse
+		servoLeft.writeMicroseconds(1700);  // Left wheel counterclockwise
+		servoRight.writeMicroseconds(1300); // Right wheel clockwise
+	}
+	//RIGHT
+	if (x == 'q') { //Right reverse
+		servoLeft.writeMicroseconds(1300); 
+		servoRight.writeMicroseconds(1550);
+	}
+	//FORWARD
+	//STRAIGHT
+	if (x == 'w') { //Straight forward
+		servoLeft.writeMicroseconds(1700); //counter clockwise
+		servoRight.writeMicroseconds(1300); //clockwise
+	}
+	//LEFT
+	if (x == 'g') { //forward left
+		servoLeft.writeMicroseconds(1550); 
+		servoRight.writeMicroseconds(1300);
 
-			}
-			//RIGHT
-			if (x == 'h') { //forward right
-				servoLeft.writeMicroseconds(1700); 
-				servoRight.writeMicroseconds(1450);
-			}
-	
-			//ACTIVATE AUTO
-			if (x == 'z') { //middle button pressed
-				return true;
-			
-			}
-			return false;
+	}
+	//RIGHT
+	if (x == 'h') { //forward right
+		servoLeft.writeMicroseconds(1700); 
+		servoRight.writeMicroseconds(1450);
+	}
+
+	//ACTIVATE AUTO
+	if (x == 'z') { //middle button pressed
+		return true;
+
+	}
+	return false;
 }
 
          
